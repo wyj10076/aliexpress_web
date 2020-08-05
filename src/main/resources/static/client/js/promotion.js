@@ -5,7 +5,7 @@ $(document).ready(function() {
 	$(".promotion-item-period").each(function() {
 		const endYMD = $(this).data("date");
 		if (endYMD !== "") {
-			if (Number(endYMD) - Number(today) <= 30) {
+			if (Number(endYMD) - Number(today) <= 3) {
 				$(this).parent().parent().find(".tag-img").css("display", "block");
 			}
 		}

@@ -54,10 +54,8 @@ $("#secondary-category-select").change(function() {
 				const hotProductList = data.hotProductList;
 				resetGridBox();
 				
-				if (hotProductList.length === 0) {
-					alert("없다");
+				if (hotProductList.length !== 0) {
 					
-				} else {
 					const purchase = locale === "ko_KR" ? "구매하기" : "Purchase";
 					
 					for (let hotProduct of hotProductList) {
@@ -108,10 +106,8 @@ $(document).on("click", ".purchase-button", function() {
 			
 			if (result === "success") {
 				window.open(url, "_blank");
-				alert("성공");
 			} else {
 				window.open(hotProductLink, "_blank");
-				alert("실패");
 			}
 		}
 	})

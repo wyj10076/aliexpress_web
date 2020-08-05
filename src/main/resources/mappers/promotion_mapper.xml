@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.app.aliexpress.promotion.mapper.PromotionMapper">
+
+	<select id="selectPromotionList" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+		SELECT * FROM PROMOTION
+			WHERE PROMOTION_TYPE = #{promotionType}
+			<if test="order != null">
+				ORDER BY PROMOTION_END_YMD
+			</if>
+	</select>
+	
+	<select id="selectPromotion" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+		SELECT * FROM PROMOTION
+			WHERE PROMOTION_ID = #{promotionId}
+	</select>
+	
+	<insert id="insertPromotion" parameterType="java.util.HashMap">
+		<selectKey keyProperty="promotionId" resultType="int" order="AFTER">
+			SELECT LAST_INSERT_ID()
+		</selectKey>
+		INSERT INTO
+			PROMOTION(PROMOTION_TYPE, PROMOTION_TITLE_KO, PROMOTION_IMAGE_KO
+								, PROMOTION_LINK_KO, PROMOTION_TITLE_EN, PROMOTION_IMAGE_EN
+								, PROMOTION_LINK_EN, PROMOTION_START_YMD, PROMOTION_END_YMD)
+			VALUES(#{promotionType}, #{promotionTitleKo}, #{promotionImageKo}, #{promotionLinkKo}
+							, #{promotionTitleEn}, #{promotionImageEn}, #{promotionLinkEn}
+							, #{promotionStartYMD, jdbcType=VARCHAR}, #{promotionEndYMD, jdbcType=VARCHAR})	
+	</insert>
+	
+	<update id="updatePromotion" parameterType="java.util.HashMap">
+		UPDATE PROMOTION SET
+			PROMOTION_TITLE_KO = #{promotionTitleKo}, PROMOTION_IMAGE_KO = #{promotionImageKo}, PROMOTION_LINK_KO = #{promotionLinkKo}
+			, PROMOTION_TITLE_EN = #{promotionTitleEn}, PROMOTION_IMAGE_EN = #{promotionImageEn}, PROMOTION_LINK_EN = #{promotionLinkEn} 
+			, PROMOTION_START_YMD = #{promotionStartYMD, jdbcType=VARCHAR}, PROMOTION_END_YMD = #{promotionEndYMD, jdbcType=VARCHAR}
+			WHERE PROMOTION_ID = #{promotionId}
+	</update>
+	
+	<delete id="deletePromotion" parameterType="java.util.HashMap">
+		DELETE FROM PROMOTION
+			WHERE PROMOTION_ID = #{promotionId}
+	</delete>
+	
+	<delete id="deletePromotionByScheduler" parameterType="java.util.HashMap">
+		DELETE FROM PROMOTION
+			WHERE PROMOTION_TYPE = 'periodical'
+				AND PROMOTION_END_YMD = DATE_FORMAT(SYSDATE(), '%Y%m%d')
+	</delete>
+</mapper>

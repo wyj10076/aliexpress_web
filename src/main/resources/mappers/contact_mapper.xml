@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.app.aliexpress.contact.mapper.ContactMapper">
+	<insert id="insertContact" parameterType="java.util.HashMap">
+		INSERT INTO
+			CONTACT (CONTACT_EMAIL, CONTACT_TITLE, CONTACT_CONTENT, CONTACT_REG_YMD)
+			VALUES (#{contactEmail}, #{contactTitle}, #{contactContent}, DATE_FORMAT(SYSDATE(), '%Y%m%d'))
+	</insert>
+	
+	<select id="selectContactList" resultType="java.util.HashMap">
+		SELECT * FROM CONTACT
+	</select>
+	
+	<select id="selectContact" resultType="java.util.HashMap" parameterType="java.util.HashMap">
+		SELECT * FROM CONTACT
+			WHERE CONTACT_ID = #{contactId}
+	</select>
+	
+	<update id="replyContact" parameterType="java.util.HashMap">
+		UPDATE CONTACT SET
+			CONTACT_REPLY_TITLE = #{contactReplyTitle}, CONTACT_REPLY_CONTENT = #{contactReplyContent}
+			, CONTACT_REPLY_YMD = DATE_FORMAT(SYSDATE(), '%Y%m%d')
+			WHERE CONTACT_ID = #{contactId}
+	</update>
+	
+	<update id="updateReadYMDToSysdate" parameterType="java.util.HashMap">
+		UPDATE CONTACT SET
+			CONTACT_READ_YMD = DATE_FORMAT(SYSDATE(), '%Y%m%d')
+			WHERE CONTACT_ID = #{contactId}	
+	</update>
+</mapper>

@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.app.aliexpress.server.mapper.ServerMapper">
+
+	<select id="selectServer" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+		SELECT * FROM SERVER
+			WHERE 1 = 1
+			<if test="serverId != null">
+				AND SERVER_ID = #{serverId}
+			</if>
+			<if test="serverUseYN != null">
+				AND SERVER_USE_YN = #{serverUseYN}
+			</if>
+	</select>
+	
+	<select id="selectServerList" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+		SELECT * FROM SERVER
+	</select>
+	
+	<update id="updateUseYNToN" parameterType="java.util.HashMap">
+		UPDATE SERVER SET SERVER_USE_YN = 'N'
+			WHERE SERVER_USE_YN = 'Y'
+	</update>
+	
+	<insert id="insertServer" parameterType="java.util.HashMap">
+		INSERT INTO 
+			SERVER(SERVER_ID, SERVER_APP_URL, SERVER_APP_KEY
+							, SERVER_SECRET_KEY, SERVER_TRACKING_ID
+							, SERVER_EMAIL_ID, SERVER_EMAIL_PASSWORD
+							, SERVER_EMAIL_PLATFORM, SERVER_YOUTUBE
+							, SERVER_USER_SITE)
+			VALUES(#{serverId}, #{serverAppUrl, jdbcType=VARCHAR}
+							, #{serverAppKey, jdbcType=VARCHAR}
+							, #{serverSecretKey, jdbcType=VARCHAR}
+							, #{serverTrackingId, jdbcType=VARCHAR}
+							, #{serverEmailId, jdbcType=VARCHAR}
+							, #{serverEmailPassword, jdbcType=VARCHAR}
+							, #{serverEmailPlatform, jdbcType=VARCHAR}
+							, #{serverYoutube, jdbcType=VARCHAR}
+							, #{serverUserSite, jdbcType=VARCHAR})
+	</insert>
+	
+	<update id="updateServer" parameterType="java.util.HashMap">
+		UPDATE SERVER SET
+			SERVER_USE_YN = 'Y'
+			<if test="serverAppKey != null">
+				, SERVER_APP_URL = #{serverAppUrl}
+				, SERVER_APP_KEY = #{serverAppKey}
+				, SERVER_SECRET_KEY = #{serverSecretKey}
+				, SERVER_TRACKING_ID = #{serverTrackingId}
+			</if>
+			<if test="serverEmailId != null">
+				,	SERVER_EMAIL_ID = #{serverEmailId}
+				, SERVER_EMAIL_PASSWORD = #{serverEmailPassword}
+				, SERVER_EMAIL_PLATFORM = #{serverEmailPlatform}
+			</if>
+			<if test="serverYoutube != null">
+				, SERVER_YOUTUBE = #{serverYoutube}
+			</if>
+			<if test="serverUserSite != null">
+				, SERVER_USER_SITE = #{serverUserSite}
+			</if>
+			WHERE SERVER_ID = #{serverId}
+	</update>
+	
+	<delete id="deleteServer" parameterType="java.util.HashMap">
+		DELETE FROM SERVER 
+			WHERE SERVER_ID = #{serverId}
+	</delete>
+</mapper>

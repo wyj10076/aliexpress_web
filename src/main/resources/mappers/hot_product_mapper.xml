@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.app.aliexpress.hotproduct.mapper.HotProductMapper">
+	<insert id="insertHotProductList" parameterType="java.util.HashMap">
+		INSERT INTO
+			HOT_PRODUCT
+				(HOT_PRODUCT_PRIMARY_CATEGORY_ID
+				, HOT_PRODUCT_SECONDARY_CATEGORY_ID
+				, HOT_PRODUCT_IMAGE, HOT_PRODUCT_LINK
+				, HOT_PRODUCT_ORIGIN_PRICE
+				,	HOT_PRODUCT_SALE_PRICE)
+			VALUES
+				<foreach collection="hotProductList" item="item" separator=",">
+					(#{item.hotProductPrimaryCategoryId}, #{item.hotProductSecondaryCategoryId}
+					, #{item.hotProductImage}, #{item.hotProductLink}
+					, #{item.hotProductOriginPrice}, #{item.hotProductSalePrice, jdbcType=VARCHAR})
+				</foreach>
+	</insert>
+	
+	<delete id="deleteHotProductList" parameterType="java.util.HashMap">
+		DELETE FROM HOT_PRODUCT
+			WHERE HOT_PRODUCT_PRIMARY_CATEGORY_ID = #{primaryCategoryId}
+					AND HOT_PRODUCT_SECONDARY_CATEGORY_ID = #{secondaryCategoryId}
+	</delete>
+	
+	<select id="selectHotProductList" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+		SELECT * FROM HOT_PRODUCT
+			WHERE HOT_PRODUCT_SECONDARY_CATEGORY_ID = #{secondaryCategoryId}
+	</select> 
+</mapper>

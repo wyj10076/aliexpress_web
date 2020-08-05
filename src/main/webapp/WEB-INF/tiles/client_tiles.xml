@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE tiles-definitions PUBLIC
+       "-//Apache Software Foundation//DTD Tiles Configuration 3.0//EN"
+       "http://tiles.apache.org/dtds/tiles-config_3_0.dtd">
+<tiles-definitions>
+
+	<definition name="client_layout" template="/WEB-INF/tiles/client_layout.jsp">
+		<put-attribute name="header" value="/WEB-INF/views/client/header.jsp" />
+		<put-attribute name="quickMenu" value="/WEB-INF/views/client/quickMenu.jsp" />
+	</definition>
+	
+	<definition name="client/*" extends="client_layout">
+		<put-attribute name="content" value="/WEB-INF/views/client/{1}.jsp" />
+	</definition>
+	
+</tiles-definitions>

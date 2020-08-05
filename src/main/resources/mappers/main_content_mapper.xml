@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.app.aliexpress.maincontent.mapper.MainContentMapper">
+	<select id="selectMainContentList" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+		SELECT * FROM MAIN_CONTENT
+			WHERE MAIN_CONTENT_TYPE = #{mainContentType}
+			ORDER BY MAIN_CONTENT_ORDER
+	</select>
+	
+	<insert id="insertMainContentList" parameterType="java.util.HashMap">
+		INSERT INTO MAIN_CONTENT
+			(MAIN_CONTENT_TYPE, MAIN_CONTENT_IMAGE_KO
+			, MAIN_CONTENT_IMAGE_EN, MAIN_CONTENT_DESCRIPTION
+			, MAIN_CONTENT_ORDER)
+			VALUES
+				<foreach collection="insertList" item="item" separator=",">
+					(#{item.mainContentType}, #{item.mainContentImageKoPath}
+					, #{item.mainContentImageEnPath}
+					, #{item.mainContentDescription, jdbcType=VARCHAR}
+					, #{item.mainContentOrder})
+				</foreach>
+	</insert>
+	
+	<update id="updateMainContentList" parameterType="java.util.HashMap">
+		<foreach collection="updateList" item="item" separator=";">
+			UPDATE MAIN_CONTENT SET
+				MAIN_CONTENT_ORDER = #{item.mainContentOrder}
+				, MAIN_CONTENT_DESCRIPTION = #{item.mainContentDescription}
+				<if test="mainContentImageKoPath != null">
+					, MAIN_CONTENT_IMAGE_KO = #{item.mainContentImageKoPath}
+				</if>
+				<if test="mainContentImageEnPath != null">
+					, MAIN_CONTENT_IMAGE_EN = #{item.mainContentImageEnPath}
+				</if>	
+				WHERE MAIN_CONTENT_ID = #{item.mainContentId}
+		</foreach>
+	</update>
+	
+	<update id="updateOrderMainContentList" parameterType="java.util.HashMap">
+		<foreach collection="orderList" item="item" separator=";">
+			UPDATE MAIN_CONTENT SET
+				MAIN_CONTENT_ORDER = #{item.mainContentOrder}
+				WHERE MAIN_CONTENT_ID = #{item.mainContentId}
+		</foreach>
+	</update>
+	
+	<delete id="deleteMainContentList" parameterType="java.util.HashMap">
+		DELETE FROM MAIN_CONTENT
+			WHERE
+				<foreach collection="deleteList" item="item" separator="OR">
+					(MAIN_CONTENT_ID = #{item.mainContentId})
+				</foreach>
+	</delete>
+</mapper>

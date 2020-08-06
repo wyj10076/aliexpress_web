@@ -16,7 +16,7 @@ public class CheckServerAppServiceImpl implements CheckServerAppService {
 		map.put("SERVER_APP_KEY", map.get("appKey"));
 		map.put("SERVER_SECRET_KEY", map.get("secretKey"));
 		map.put("SERVER_TRACKING_ID", map.get("trackingId"));
-		map.put("source", "http://www.aliexpress.com");
+		map.put("hotProductLink", "http://www.aliexpress.com");
 		
 		try {
 			String link = Taobao.linkGenerate(map);
